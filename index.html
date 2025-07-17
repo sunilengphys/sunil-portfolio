@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sunil Balendran | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: 'Lexend', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+  <header class="text-center p-6 bg-gray-100 shadow-md">
+    <h1 class="text-4xl font-bold">Sunil Balendran</h1>
+    <p class="text-lg text-gray-600">AI | Analytics | Project Management</p>
+  </header>
+
+  <section class="text-center mt-6">
+    <div class="inline-flex gap-3">
+      <button class="filter-btn px-4 py-2 bg-blue-500 text-white rounded" data-category="all">All</button>
+      <button class="filter-btn px-4 py-2 bg-purple-500 text-white rounded" data-category="AI">AI</button>
+      <button class="filter-btn px-4 py-2 bg-green-500 text-white rounded" data-category="Analytics">Analytics</button>
+      <button class="filter-btn px-4 py-2 bg-yellow-500 text-white rounded" data-category="Project Management">Project Management</button>
+    </div>
+  </section>
+
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8" id="project-grid">
+    <!-- Project cards will be inserted here by JS -->
+  </main>
+
+  <script>
+    const projects = [
+      {
+        title: "AI Blackjack Dealer",
+        category: ["AI", "Analytics", "Project Management"],
+        description: "Built a real-time blackjack game using gesture recognition and card detection.",
+        tags: ["TensorFlow", "OpenCV", "MediaPipe", "Python"],
+        media: "media/blackjack_dealer.png"
+      },
+      {
+        title: "Process Optimization at CenterLine",
+        category: ["Analytics", "Project Management"],
+        description: "Evaluated tool management systems and delivered a roadmap to save $150K annually.",
+        tags: ["Business Analysis", "Consulting", "Workflow Design"],
+        media: "media/centerline.png"
+      }
+    ];
+
+    const grid = document.getElementById('project-grid');
+
+    function renderProjects(filter) {
+      grid.innerHTML = '';
+      projects.forEach(project => {
+        if (filter === 'all' || project.category.includes(filter)) {
+          const card = document.createElement('div');
+          card.className = "bg-white shadow-md rounded p-4 border border-gray-200";
+          card.innerHTML = `
+            <img src="${project.media}" alt="${project.title}" class="rounded w-full mb-4">
+            <h2 class="text-xl font-semibold mb-2">${project.title}</h2>
+            <p class="text-sm mb-2">${project.description}</p>
+            <div class="text-xs text-gray-600">${project.tags.join(', ')}</div>
+          `;
+          grid.appendChild(card);
+        }
+      });
+    }
+
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('opacity-50'));
+        btn.classList.add('opacity-50');
+        renderProjects(btn.getAttribute('data-category'));
+      });
+    });
+
+    // Initial load
+    renderProjects('all');
+  </script>
+</body>
+</html>
+
